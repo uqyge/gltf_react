@@ -1,0 +1,19 @@
+.label {
+    width: 80px;
+    height: 10px;
+    margin-bottom: .5em;
+    background-color: #5a5a5a;
+}
+
+.text {
+    width: 120px;
+    height: 15px;
+    background-color: #bfbfbf;
+}
+
+.field {
+    margin-bottom: 2em;
+    margin: 1em;
+    text-align: left;
+    display: inline-block;
+}
