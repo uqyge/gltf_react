@@ -2,6 +2,7 @@ import React, {
     Component
 } from 'react';
 
+import ReactDOM from 'react-dom'
 import * as THREE from 'three'
 import {
     Sidebar,
@@ -21,7 +22,7 @@ class DemoCanvas extends Component {
             x: 0,
             y: 0
         };
-        
+
         this.geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
         this.material = new THREE.MeshNormalMaterial();
         this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -35,17 +36,23 @@ class DemoCanvas extends Component {
     }
 
     componentDidMount() {
-        this.updateCanvas();
-        //  requestAnimationFrame(this.updateCanvas);
-        
-    }
-    updateCanvas() {
-        var camera, scene, renderer;
-        var geometry, material, mesh;
-        
+        const scene3d = this.refs.canvas;
+        //  mesh = this.mesh;
+        this.updateCanvas(scene3d,this.mesh);
+        window.requestAnimationFrame(this.updateCanvas);
 
-        var scene3d = this.refs.canvas;
-        console.log(scene3d);
+
+    }
+    updateCanvas(scene3d,mesh) {
+        let camera, scene, renderer;
+        var geometry, material;
+        // let mesh;
+
+
+        // let scene3d = this.refs.canvas;
+        // let scene3d = ReactDOM.findDOMNode(this);
+        console.log(scene3d,'canvas');
+        // console.log(ReactDOM.findDOMNode(this.refs.canvas))
         camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
         camera.position.z = 1;
 
@@ -55,9 +62,9 @@ class DemoCanvas extends Component {
         // geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
         // material = new THREE.MeshNormalMaterial();
         // mesh = new THREE.Mesh(geometry, material);
-        geometry = this.geometry;
-        material = this.material;
-        mesh = this.mesh;
+        // geometry = this.geometry;
+        // material = this.material;
+        //  mesh = this.mesh;
         scene.add(mesh);
         scene.background = new THREE.Color(0xf0f0f0);
 
@@ -71,25 +78,23 @@ class DemoCanvas extends Component {
         mesh.rotation.y += 0.02;
 
         renderer.render(scene, camera);
+        // window.requestAnimationFrame(this.updateCanvas);
 
     }
 
     render() {
         // this.updateCanvas;
-        
-        return ( <
-            div onMouseMove = {
+
+        return ( < div onMouseMove = {
                 this.handleMouseMove
-            } 
-            
-            >
+            } >
             <
             p > the current position({
                 this.state.x
             }, {
                 this.state.y
             }) < /p> 
-            
+
             <
             canvas id = 'demoCanvas'
             ref = "canvas"
@@ -100,15 +105,10 @@ class DemoCanvas extends Component {
                 300
             }
             />
-            
+
             <
             /div>
-            //  onMouseMove={this.updateCanvas}
 
-            /*             <div style={{ height: '100%' }} onMouseMove={this.handleMouseMove}>
-                        <p>The current mouse position is ({this.state.x}, {this.state.y})</p>
-                        </div>    
-             */
         );
     }
 }
