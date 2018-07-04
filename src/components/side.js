@@ -11,6 +11,7 @@ import {
 // import Tutorial from "./Tutorial";
 // import DemoCanvas from './DemoCanvas';
 import Scene from "./cube";
+import GltfTest from "./loaderGLTF";
 
 // import {init,animate} from './box.js'
 // import './box.js'
@@ -71,7 +72,8 @@ class SidebarRightOverlay extends Component {
               {" "}
               {/* <Tutorial/> */}
               {/* <DemoCanvas/> */}
-              <Scene onSelectedUUID={this.showUUID} />
+              {/* <Scene onSelectedUUID={this.showUUID} /> */}
+              <GltfTest onSelectedUUID={this.showUUID} />
             </Segment>{" "}
           </Sidebar.Pusher>{" "}
         </Sidebar.Pushable>{" "}
