@@ -81,16 +81,18 @@ class GltfTest extends React.Component {
     scene.add(light);
     // model
     var loader = new window.THREE.GLTFLoader();
+    console.log(loader);
     loader.load(
-      "../models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf",
+      //   "../models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf",
+      "../models/gltf/Duck/glTF/Duck.gltf",
       function(gltf) {
-        gltf.scene.traverse(function(child) {
-          // if (child.isMesh) {
-          //   child.material.envMap = envMap;
-          // }
-        });
+        // gltf.scene.traverse(function(child) {
+        //   if (child.isMesh) {
+        //     child.material.envMap = envMap;
+        //   }
+        // });
         scene.add(gltf.scene);
-        console.log(gltf.scene);
+        // console.log(gltf.scene);
       }
     );
 
