@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Tutorial from './Tutorial';
-import SidebarRightOverlay from './side';
-import SidebarLeftOverlay from './treeview';
+import React, { Component } from "react";
+import Tutorial from "./Tutorial";
+import SidebarRightOverlay from "./side";
+import SidebarLeftOverlay from "./treeview";
 
-import '../css/App.css';
+import "../css/App.css";
 
 class App extends Component {
   render() {
@@ -14,7 +14,7 @@ class App extends Component {
         </div>
         {/* <Tutorial /> */}
 
-        < SidebarRightOverlay />
+        <SidebarRightOverlay />
         {/* < SidebarLeftOverlay /> */}
         {/* < ButtonExampleLabeledBasic /> */}
       </div>
