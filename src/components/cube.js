@@ -73,7 +73,8 @@ class Scene extends React.Component {
       scene.add(object);
       objects.push(object);
     }
-    console.log("camera pos",camera.position);
+    console.log("camera pos", camera.position);
+    console.log("scene pos", scene.position);
     renderer.setClearColor("#000000");
     renderer.setSize(width, height);
     // renderer.setPixelRatio( window.devicePixelRatio );
@@ -157,6 +158,7 @@ class Scene extends React.Component {
     // this.camera.updateMatrixWorld();
 
     // console.log(this.mouse);
+    console.log("intersects:", this.scene.children);
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     // console.log(this.mouse);

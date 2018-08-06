@@ -17,7 +17,6 @@ class GltfTest extends React.Component {
     this.animate = this.animate.bind(this);
     this.renderScene = this.renderScene.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.render = this.render.bind(this);
     this.mouse = new THREE.Vector2();
     this.state = {
       x: 0,
@@ -120,50 +119,19 @@ class GltfTest extends React.Component {
         // newCam.updateProjectionMatrix();
         console.log("cam pos", camera.position);
         console.log("newCam pos", newCam.position);
-
         console.log("world", camera.getWorldDirection());
         console.log("newCam", newCam.getWorldDirection());
+
         camera.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
         newCam.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
-        // camera.lookAt(0, 1, 0);
-        // newCam.lookAt(0, 1, 0);
-        // newCam.lookAt(meshCenter);
-
-        // camera.position.set(
-        //   meshCenter.x,
-        //   // meshCenter.y + 20000,
-        //   meshCenter.y,
-        //   meshCenter.z + 20000
-        // );
-        // newCam.position.set(
-        //   meshCenter.x,
-        //   // meshCenter.y + 20000,
-        //   meshCenter.y,
-        //   meshCenter.z + 20000
-        // );
 
         // camera.updateProjectionMatrix();
         // newCam.updateProjectionMatrix();
         console.log("world look_at", camera.getWorldDirection());
         console.log("newCam look_at", newCam.getWorldDirection());
-        // camera.position.set(
-        //   // meshCenter.x + 30000,
-        //   // meshCenter.y + 1,
-        //   // meshCenter.z + 30000
-        //   300000,
-        //   10000,
-        //   30000
-        // );
-        // newCam.position.set(
-        //   meshCenter.x + 1,
-        //   // meshCenter.y + 20000,
-        //   meshCenter.y + 1,
-        //   meshCenter.z + 10000
-        // );
 
-        console.log("camera new pos", camera.position);
         console.log("newCam new pos", newCam.position);
-        // console.log("scene", scene.position);
+        console.log("scene", scene.position);
       }
     );
 
@@ -239,38 +207,53 @@ class GltfTest extends React.Component {
 
   renderScene() {
     this.raycaster.setFromCamera(this.mouse, this.camera);
-    const intersects = this.raycaster.intersectObjects(this.scene.children);
-    // console.log(this.mouse);
-    console.log("intersect:", intersects.length);
 
-    if (intersects.length > 0) {
-      if (this.INTERSECTED != intersects[0].object) {
+    let intersects = this.raycaster.intersectObjects(this.scene.children);
+
+    if (this.scene.children[2] != null) {
+      // console.log(
+      //   "intersect scene:",
+      //   this.scene.children[2].children[0].children
+      // );
+      intersects = this.raycaster.intersectObjects(
+        this.scene.children[2].children[0].children
+      );
+    }
+    // console.log(this.mouse);
+    // console.log("intersect:", intersects.length);
+    if (this.scene.children[2 != null]) {
+      if (intersects.length > 0) {
+        if (this.INTERSECTED != intersects[0].object) {
+          if (this.INTERSECTED)
+            this.INTERSECTED.material.emissive.setHex(
+              this.INTERSECTED.currentHex
+            );
+          this.INTERSECTED = intersects[0].object;
+          console.log(this.INTERSECTED.uuid);
+          // console.log(this.INTERSECTED.material.emissive);
+          console.log(this.INTERSECTED.material);
+          this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+          this.INTERSECTED.material.emissive.setHex(0x00ff00);
+          // this.INTERSECTED.currentOp = this.INTERSECTED.material.opacity;
+          // this.INTERSECTED.material.opacity = 0.1;
+
+          // this.props.uuid = this.INTERSECTED.uuid;
+          this.props.onSelectedUUID(this.INTERSECTED.uuid);
+          this.setState({
+            uuid: this.INTERSECTED.uuid
+          });
+        }
+      } else {
         if (this.INTERSECTED)
           this.INTERSECTED.material.emissive.setHex(
             this.INTERSECTED.currentHex
           );
-        this.INTERSECTED = intersects[0].object;
-        console.log(this.INTERSECTED.uuid);
-        // console.log(this.INTERSECTED.material.emissive);
-        console.log(this.INTERSECTED.material);
-        // this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-        this.INTERSECTED.currentOp = this.INTERSECTED.material.opacity;
-        this.INTERSECTED.material.opacity = 0.1;
-
-        // this.props.uuid = this.INTERSECTED.uuid;
-        this.props.onSelectedUUID(this.INTERSECTED.uuid);
+        // this.INTERSECTED.material.opacity = this.INTERSECTED.currentOp;
+        this.INTERSECTED = null;
         this.setState({
-          uuid: this.INTERSECTED.uuid
+          uuid: "None"
         });
       }
-    } else {
-      if (this.INTERSECTED)
-        // this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
-        this.INTERSECTED.material.opacity = this.INTERSECTED.currentOp;
-      this.INTERSECTED = null;
-      this.setState({
-        uuid: "None"
-      });
     }
     // this.controls.update();
     this.renderer.render(this.scene, this.camera);
