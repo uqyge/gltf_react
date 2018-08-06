@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 
 import * as THREE from "three";
+import GLTFLoader from "three-gltf-loader";
+// import data from "../models/gltf/Duck/glTF/Duck.gltf";
+// import data from "../models/gltf/Duck/glTF-Binary/Duck.glb";
+// import data from "./DamagedHelmet.glb";
+// import data from "./Duck.glb";
+import data from "./Test001.glb";
 
 class GltfTest extends React.Component {
   constructor(props) {
@@ -11,6 +17,7 @@ class GltfTest extends React.Component {
     this.animate = this.animate.bind(this);
     this.renderScene = this.renderScene.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.render = this.render.bind(this);
     this.mouse = new THREE.Vector2();
     this.state = {
       x: 0,
@@ -30,69 +37,133 @@ class GltfTest extends React.Component {
     // const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     // camera.position.z = 4;
     // camera.position.z = 1000;
-    const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.25,
-      20
-    );
-    camera.position.set(-1.8, 0.9, 2.7);
 
-    const controls = new window.THREE.TrackballControls(camera);
-    controls.rotateSpeed = 1.0;
-    controls.zoomSpeed = 1.2;
-    controls.panSpeed = 0.8;
-    controls.noZoom = false;
-    controls.noPan = false;
-    controls.staticMoving = true;
-    controls.dynamicDampingFactor = 0.3;
+    // const camera = new THREE.PerspectiveCamera(
+    //   45,
+    //   window.innerWidth / window.innerHeight,
+    //   0.25,
+    //   20
+    // );
+    // camera.position.set(-1.8, 0.9, 2.7);
+
+    // const controls = new window.THREE.TrackballControls(camera);
+    // controls.rotateSpeed = 1.0;
+    // controls.zoomSpeed = 1.2;
+    // controls.panSpeed = 0.8;
+    // controls.noZoom = false;
+    // controls.noPan = false;
+    // controls.staticMoving = true;
+    // controls.dynamicDampingFactor = 0.3;
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      200000
+    );
+
+    const newCam = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      200000
+    );
+    const camHelper = new THREE.CameraHelper(newCam);
+    scene.add(camHelper);
+
+    // const controls = new window.THREE.OrbitControls(camera);
+    // controls.target.set(0, -0.2, -0.2);
+    // controls.update();
+
+    // camera.position.set(10, 10, 10);
 
     const raycaster = new THREE.Raycaster();
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    // const geometry = new THREE.BoxGeometry(1, 1, 1);
-    // const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-    // const cube = new THREE.Mesh(geometry, material);
-    // scene.add(cube);
-
-    // let objects = [];
-    // var geometry = new THREE.BoxBufferGeometry(40, 40, 40);
-    // for (var i = 0; i < 2; i++) {
-    //   var object = new THREE.Mesh(
-    //     geometry,
-    //     new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff })
-    //   );
-    //   object.position.x = Math.random() * 1000 - 500;
-    //   object.position.y = Math.random() * 600 - 300;
-    //   object.position.z = Math.random() * 800 - 400;
-    //   object.rotation.x = Math.random() * 2 * Math.PI;
-    //   object.rotation.y = Math.random() * 2 * Math.PI;
-    //   object.rotation.z = Math.random() * 2 * Math.PI;
-    //   object.scale.x = Math.random() * 2 + 1;
-    //   object.scale.y = Math.random() * 2 + 1;
-    //   object.scale.z = Math.random() * 2 + 1;
-    //   object.castShadow = true;
-    //   object.receiveShadow = true;
-    //   scene.add(object);
-    //   objects.push(object);
-    // }
+    const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
 
     const light = new THREE.HemisphereLight(0xbbbbff, 0x444422);
     light.position.set(0, 1, 0);
     scene.add(light);
     // model
     var loader = new window.THREE.GLTFLoader();
-    console.log(loader);
+    // var loader = new GLTFLoader();
+    console.log("edison", loader);
+    // const data_1 = require("json!./Druck.gltf");
+    console.log(data);
+
     loader.load(
       //   "../models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf",
-      "../models/gltf/Duck/glTF/Duck.gltf",
-      function(gltf) {
-        // gltf.scene.traverse(function(child) {
-        //   if (child.isMesh) {
-        //     child.material.envMap = envMap;
-        //   }
-        // });
+      // "../models/gltf/Duck/glTF/Duck.gltf",
+      // "models/gltf/Duck/glTF-Embedded/Duck.gltf",
+      // "models/gltf/Duck/glTF-Binary/Duck.glb",
+      // "Duck.gltf",
+      data,
+      // "https://rawgit.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Binary/Duck.glb",
+      gltf => {
         scene.add(gltf.scene);
-        // console.log(gltf.scene);
+        // camera.position.set(100, 0, 100);
+        // newCam.position.set(0, 0, 0);
+
+        // camera.lookAt(gltf.position);
+        // console.log(gltf.scene.children[0].children[0]);
+        gltf.scene.children[0].children[0].geometry.computeBoundingSphere();
+        console.log(
+          gltf.scene.children[0].children[0].geometry.boundingSphere.center
+        );
+        const meshCenter =
+          gltf.scene.children[0].children[0].geometry.boundingSphere.center;
+
+        camera.position.set(meshCenter.x, meshCenter.y, meshCenter.z + 30000);
+        newCam.position.set(meshCenter.x, meshCenter.y, meshCenter.z + 30000);
+
+        // camera.updateProjectionMatrix();
+        // newCam.updateProjectionMatrix();
+        console.log("cam pos", camera.position);
+        console.log("newCam pos", newCam.position);
+
+        console.log("world", camera.getWorldDirection());
+        console.log("newCam", newCam.getWorldDirection());
+        camera.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
+        newCam.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
+        // camera.lookAt(0, 1, 0);
+        // newCam.lookAt(0, 1, 0);
+        // newCam.lookAt(meshCenter);
+
+        // camera.position.set(
+        //   meshCenter.x,
+        //   // meshCenter.y + 20000,
+        //   meshCenter.y,
+        //   meshCenter.z + 20000
+        // );
+        // newCam.position.set(
+        //   meshCenter.x,
+        //   // meshCenter.y + 20000,
+        //   meshCenter.y,
+        //   meshCenter.z + 20000
+        // );
+
+        // camera.updateProjectionMatrix();
+        // newCam.updateProjectionMatrix();
+        console.log("world look_at", camera.getWorldDirection());
+        console.log("newCam look_at", newCam.getWorldDirection());
+        // camera.position.set(
+        //   // meshCenter.x + 30000,
+        //   // meshCenter.y + 1,
+        //   // meshCenter.z + 30000
+        //   300000,
+        //   10000,
+        //   30000
+        // );
+        // newCam.position.set(
+        //   meshCenter.x + 1,
+        //   // meshCenter.y + 20000,
+        //   meshCenter.y + 1,
+        //   meshCenter.z + 10000
+        // );
+
+        console.log("camera new pos", camera.position);
+        console.log("newCam new pos", newCam.position);
+        // console.log("scene", scene.position);
       }
     );
 
@@ -106,12 +177,12 @@ class GltfTest extends React.Component {
     this.INTERSECTED = INTERSECTED;
     this.scene = scene;
     this.camera = camera;
+    this.newCam = newCam;
     this.light = light;
-    this.controls = controls;
+    // this.controls = controls;
     this.raycaster = raycaster;
     this.renderer = renderer;
-    // this.material = material;
-    // this.cube = cube;
+    this.material = material;
 
     this.mount.appendChild(this.renderer.domElement);
 
@@ -153,8 +224,6 @@ class GltfTest extends React.Component {
       ((event.clientX - rect.left) / (rect.width - rect.left)) * 2 - 1;
     this.mouse.y =
       -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-    // this.mouse.x = ((event.clientX - this.mount.offsetLeft + document.body.scrollLeft) / this.mount.offsetWidth) * 2 - 1;
-    // this.mouse.y = -((event.clientY - this.mount.offsetTop + document.body.scrollTop) / this.mount.offsetHeight) * 2 + 1;
 
     // console.log(this.mouse);
     this.setState({
@@ -164,9 +233,6 @@ class GltfTest extends React.Component {
   }
 
   animate() {
-    // this.cube.rotation.x += 0.01;
-    // this.cube.rotation.y += 0.01;
-
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
   }
@@ -175,7 +241,7 @@ class GltfTest extends React.Component {
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     // console.log(this.mouse);
-    // console.log(intersects.length);
+    console.log("intersect:", intersects.length);
 
     if (intersects.length > 0) {
       if (this.INTERSECTED != intersects[0].object) {
@@ -184,10 +250,13 @@ class GltfTest extends React.Component {
             this.INTERSECTED.currentHex
           );
         this.INTERSECTED = intersects[0].object;
-        this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-        // this.INTERSECTED.material.emissive.setHex( 0xff0000 );
-        this.INTERSECTED.material.emissive.setHex(0x00ff00);
-        // console.log(this.INTERSECTED.uuid);
+        console.log(this.INTERSECTED.uuid);
+        // console.log(this.INTERSECTED.material.emissive);
+        console.log(this.INTERSECTED.material);
+        // this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+        this.INTERSECTED.currentOp = this.INTERSECTED.material.opacity;
+        this.INTERSECTED.material.opacity = 0.1;
+
         // this.props.uuid = this.INTERSECTED.uuid;
         this.props.onSelectedUUID(this.INTERSECTED.uuid);
         this.setState({
@@ -196,18 +265,29 @@ class GltfTest extends React.Component {
       }
     } else {
       if (this.INTERSECTED)
-        this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+        // this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+        this.INTERSECTED.material.opacity = this.INTERSECTED.currentOp;
       this.INTERSECTED = null;
       this.setState({
         uuid: "None"
       });
     }
-    this.controls.update();
+    // this.controls.update();
     this.renderer.render(this.scene, this.camera);
+    // this.camera.lookAt(
+    //       this.camera.position.x,
+    //       // meshCenter.y + 20000,
+    //       this.camera.position.y,
+    //       this.camera.position.z - 10000);
   }
 
   render() {
     // console.log(this.state.uuid);
+    // if (this.camera != null) {
+    //   console.log("camera look_at", this.camera.getWorldDirection());
+    //   console.log("newCam look_at", this.newCam.getWorldDirection());
+    // }
+
     return (
       <div
         // style={{ width: "800px", height: "800px" }}

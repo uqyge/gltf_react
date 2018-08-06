@@ -73,7 +73,7 @@ class Scene extends React.Component {
       scene.add(object);
       objects.push(object);
     }
-
+    console.log("camera pos",camera.position);
     renderer.setClearColor("#000000");
     renderer.setSize(width, height);
     // renderer.setPixelRatio( window.devicePixelRatio );
@@ -168,11 +168,14 @@ class Scene extends React.Component {
           this.INTERSECTED.material.emissive.setHex(
             this.INTERSECTED.currentHex
           );
+
         this.INTERSECTED = intersects[0].object;
+        console.log(this.INTERSECTED.uuid);
+        console.log(this.INTERSECTED.material);
         this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
         // this.INTERSECTED.material.emissive.setHex( 0xff0000 );
         this.INTERSECTED.material.emissive.setHex(0x00ff00);
-        console.log(this.INTERSECTED.uuid);
+
         // this.props.uuid = this.INTERSECTED.uuid;
         this.props.onSelectedUUID(this.INTERSECTED.uuid);
         this.setState({
@@ -192,7 +195,7 @@ class Scene extends React.Component {
   }
 
   render() {
-    console.log(this.state.uuid);
+    // console.log(this.state.uuid);
     return (
       <div
         // style={{ width: "800px", height: "800px" }}
