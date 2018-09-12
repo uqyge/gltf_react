@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import * as THREE from "three";
 
-class Scene extends React.Component {
+class Cube extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,14 +34,27 @@ class Scene extends React.Component {
     // controls.target.set(0, -0.2, -0.2);
     // controls.update();
 
-    let controls = new window.THREE.TrackballControls(camera);
-    controls.rotateSpeed = 1.0;
-    controls.zoomSpeed = 1.2;
-    controls.panSpeed = 0.8;
-    controls.noZoom = false;
-    controls.noPan = false;
-    controls.staticMoving = true;
-    controls.dynamicDampingFactor = 0.3;
+    // let controls = new window.THREE.TrackballControls(camera);
+    // controls.rotateSpeed = 1.0;
+    // controls.zoomSpeed = 1.2;
+    // controls.panSpeed = 0.8;
+    // controls.noZoom = false;
+    // controls.noPan = false;
+    // controls.staticMoving = true;
+    // controls.dynamicDampingFactor = 0.3;
+
+    // controls
+    let controls = new window.THREE.OrbitControls(
+      camera
+      // this.renderer.domElement
+    );
+    //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.dampingFactor = 0.25;
+    controls.screenSpacePanning = false;
+    controls.minDistance = 100;
+    controls.maxDistance = 500;
+    controls.maxPolarAngle = Math.PI / 2;
 
     const raycaster = new THREE.Raycaster();
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -53,7 +66,7 @@ class Scene extends React.Component {
     // scene.add(cube);
 
     let objects = [];
-    var geometry = new THREE.BoxBufferGeometry(40, 40, 40);
+    const geometry = new THREE.BoxBufferGeometry(40, 40, 40);
     for (var i = 0; i < 2; i++) {
       var object = new THREE.Mesh(
         geometry,
@@ -92,18 +105,18 @@ class Scene extends React.Component {
 
     this.mount.appendChild(this.renderer.domElement);
 
-    var dragControls = new window.THREE.DragControls(
-      objects,
-      camera,
-      this.renderer.domElement
-    );
-    dragControls.addEventListener("dragstart", function(event) {
-      controls.enabled = false;
-    });
-    dragControls.addEventListener("dragend", function(event) {
-      controls.enabled = true;
-    });
-    this.dragControls = dragControls;
+    // var dragControls = new window.THREE.DragControls(
+    //   objects,
+    //   camera,
+    //   this.renderer.domElement
+    // );
+    // dragControls.addEventListener("dragstart", function(event) {
+    //   controls.enabled = false;
+    // });
+    // dragControls.addEventListener("dragend", function(event) {
+    //   controls.enabled = true;
+    // });
+    // this.dragControls = dragControls;
     this.start();
   }
 
@@ -217,4 +230,4 @@ class Scene extends React.Component {
   }
 }
 
-export default Scene;
+export default Cube;

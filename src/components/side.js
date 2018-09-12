@@ -4,14 +4,17 @@ import {
   Segment,
   Button,
   Menu,
+  Checkbox,
   Image,
   Icon,
   Header
 } from "semantic-ui-react";
 // import Tutorial from "./Tutorial";
 // import DemoCanvas from './DemoCanvas';
-import Scene from "./cube";
+import Cube from "./cube";
 import GltfTest from "./loaderGLTF";
+// import CheckboxExampleCheckbox from "./Checkbox.js";
+import CheckboxExampleRemoteControl from "./Checkbox.js";
 
 // import {init,animate} from './box.js'
 // import './box.js'
@@ -30,7 +33,6 @@ class SidebarRightOverlay extends Component {
     this.setState({
       visible: !this.state.visible
     });
-
   showUUID(uuid) {
     this.setState({
       uuid_up: uuid
@@ -40,6 +42,7 @@ class SidebarRightOverlay extends Component {
   render() {
     const { visible } = this.state;
     console.log("up", this.state.uuid_up);
+    // console.log($(".ui.checkbox").checkbox());
     return (
       <div>
         <Button onClick={this.toggleVisibility}> Object detail View </Button>{" "}
@@ -60,8 +63,10 @@ class SidebarRightOverlay extends Component {
             </Menu.Item>
             <Menu.Item name="gamepad">
               <Icon name="gamepad" />
-              Games{" "}
-            </Menu.Item>{" "}
+              visible
+              <CheckboxExampleRemoteControl />
+              {/* <Checkbox defaultChecked /> */}
+            </Menu.Item>
             <Menu.Item name="camera">
               <Icon name="camera" />
               Channels{" "}
@@ -72,7 +77,7 @@ class SidebarRightOverlay extends Component {
               {" "}
               {/* <Tutorial/> */}
               {/* <DemoCanvas/> */}
-              {/* <Scene onSelectedUUID={this.showUUID} /> */}
+              {/* <Cube onSelectedUUID={this.showUUID} /> */}
               <GltfTest onSelectedUUID={this.showUUID} />
             </Segment>{" "}
           </Sidebar.Pusher>{" "}
