@@ -7,6 +7,7 @@ import GLTFLoader from "three-gltf-loader";
 // import data from "./DamagedHelmet.glb";
 // import data from "./Duck.glb";
 import data from "./Test001.glb";
+import visiJson from "./models/visibility.json";
 
 class GltfTest extends React.Component {
   constructor(props) {
@@ -95,12 +96,27 @@ class GltfTest extends React.Component {
       data,
       // "https://rawgit.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Binary/Duck.glb",
       gltf => {
-        scene.add(gltf.scene);
+        // scene.add(gltf.scene);
 
         gltf.scene.children[0].children[0].geometry.computeBoundingSphere();
         console.log(
           gltf.scene.children[0].children[0].geometry.boundingSphere.center
         );
+        // console.log(gltf.scene.children[0].children[0].uuid);
+        for (var parts in gltf.scene.children[0].children) {
+          console.log("parts", gltf.scene.children[0].children[parts].uuid);
+          console.log("json parts", visiJson.uuids[0]);
+          if (
+            gltf.scene.children[0].children[parts].uuid == visiJson.uuids[0]
+          ) {
+            gltf.scene.children[0].children[parts].visible = false;
+            console.log(
+              "hidden parts",
+              gltf.scene.children[0].children[parts].uuid
+            );
+          }
+        }
+        scene.add(gltf.scene);
         const meshCenter =
           gltf.scene.children[0].children[0].geometry.boundingSphere.center;
 
@@ -209,6 +225,7 @@ class GltfTest extends React.Component {
   renderScene() {
     this.raycaster.setFromCamera(this.mouse, this.camera);
     // console.log("camPos", this.camera.position);
+    // console.log("all", this.scene.children[2].children[0].children);
     let intersects = null;
     if (this.scene.children[2] != null) {
       intersects = this.raycaster.intersectObjects(
@@ -225,14 +242,17 @@ class GltfTest extends React.Component {
         this.INTERSECTED = intersects[0].object;
         console.log(this.INTERSECTED.uuid);
         console.log("id object", this.INTERSECTED.visible);
+        console.log("gltf checked", this.props.visi);
+        console.log("json", visiJson.uuids[0]);
         console.log(this.INTERSECTED.material);
         this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
         this.INTERSECTED.material.emissive.setHex(0x00ff00);
         // this.INTERSECTED.currentOp = this.INTERSECTED.material.opacity;
         // this.INTERSECTED.material.opacity = 0.1;
-        this.INTERSECTED.visible = false;
+        this.INTERSECTED.visible = this.props.visi;
         // this.props.uuid = this.INTERSECTED.uuid;
         this.props.onSelectedUUID(this.INTERSECTED.uuid);
+        this.props.onSelectedVisi(this.INTERSECTED.visible);
         this.setState({
           uuid: this.INTERSECTED.uuid
         });
