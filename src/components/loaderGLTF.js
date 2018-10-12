@@ -240,7 +240,7 @@ class GltfTest extends React.Component {
             this.INTERSECTED.currentHex
           );
         this.INTERSECTED = intersects[0].object;
-        console.log(this.INTERSECTED.uuid);
+        console.log("obj", this.INTERSECTED);
         console.log("id object", this.INTERSECTED.visible);
         console.log("gltf checked", this.props.visi);
         console.log("json", visiJson.uuids[0]);
@@ -252,6 +252,7 @@ class GltfTest extends React.Component {
         this.INTERSECTED.visible = this.props.visi;
         // this.props.uuid = this.INTERSECTED.uuid;
         this.props.onSelectedUUID(this.INTERSECTED.uuid);
+        this.props.onSelectedName(this.INTERSECTED.name);
         this.props.onSelectedVisi(this.INTERSECTED.visible);
         this.setState({
           uuid: this.INTERSECTED.uuid

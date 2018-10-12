@@ -13,8 +13,10 @@ import {
 // import DemoCanvas from './DemoCanvas';
 import Cube from "./cube";
 import GltfTest from "./loaderGLTF";
+import WorldCupExample from "./Tree.js";
 // import CheckboxExampleCheckbox from "./Checkbox.js";
-import CheckboxExampleRemoteControl from "./Checkbox.js";
+import Extensions from "./Checkbox.js";
+import Example from "./Tree.js";
 
 // import {init,animate} from './box.js'
 // import './box.js'
@@ -23,11 +25,13 @@ class SidebarRightOverlay extends Component {
   constructor(props) {
     super(props);
     this.showUUID = this.showUUID.bind(this);
+    this.showName = this.showName.bind(this);
     this.showVisible = this.showVisible.bind(this);
     this.showChecked = this.showChecked.bind(this);
     this.state = {
       visible: false,
       uuid_up: "None",
+      name_up: "None",
       visi_up: true,
       checked_up: true
     };
@@ -44,6 +48,11 @@ class SidebarRightOverlay extends Component {
   showUUID(uuid) {
     this.setState({
       uuid_up: uuid
+    });
+  }
+  showName(name) {
+    this.setState({
+      name_up: name
     });
   }
   showVisible(visi) {
@@ -76,7 +85,7 @@ class SidebarRightOverlay extends Component {
           <Sidebar
             as={Menu}
             animation="overlay"
-            width="thin"
+            width="thick"
             direction="right"
             visible={visible}
             icon="labeled"
@@ -85,7 +94,9 @@ class SidebarRightOverlay extends Component {
           >
             <Menu.Item name="home">
               <Icon name="home" />
-              Home edison {this.state.uuid_up}
+              Name: {this.state.name_up}
+              <p />
+              UUID: {this.state.uuid_up}
             </Menu.Item>
             <Menu.Item name="gamepad">
               <Icon name="gamepad" />
@@ -95,7 +106,8 @@ class SidebarRightOverlay extends Component {
             </Menu.Item>
             <Menu.Item name="camera">
               <Icon name="camera" />
-              Channels{" "}
+              json tree
+              <Example />
             </Menu.Item>{" "}
           </Sidebar>{" "}
           <Sidebar.Pusher>
@@ -106,6 +118,7 @@ class SidebarRightOverlay extends Component {
               {/* <Cube onSelectedUUID={this.showUUID} /> */}
               <GltfTest
                 onSelectedUUID={this.showUUID}
+                onSelectedName={this.showName}
                 onSelectedVisi={this.showVisible}
                 visi={this.state.checked_up}
               />
