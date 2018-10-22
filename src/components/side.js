@@ -28,10 +28,12 @@ class SidebarRightOverlay extends Component {
     this.showName = this.showName.bind(this);
     this.showVisible = this.showVisible.bind(this);
     this.showChecked = this.showChecked.bind(this);
+    this.passJson = this.passJson.bind(this);
     this.state = {
       visible: false,
       uuid_up: "None",
       name_up: "None",
+      jsonData: [],
       visi_up: true,
       checked_up: true
     };
@@ -55,6 +57,11 @@ class SidebarRightOverlay extends Component {
       name_up: name
     });
   }
+  passJson(jdata) {
+    this.setState({
+      jsonData: jdata
+    });
+  }
   showVisible(visi) {
     this.setState({
       visi_up: visi
@@ -70,7 +77,9 @@ class SidebarRightOverlay extends Component {
     const { visible } = this.state;
     console.log("up", this.state.uuid_up);
     console.log("visi", this.state.visi_up);
+    // console.log("json", this.state.jsonData);
     console.log("checked", this.state.checked_up);
+
     // console.log($(".ui.checkbox").checkbox());
     let vi = "visible";
     // if (!this.state.visi_up) {
@@ -107,7 +116,7 @@ class SidebarRightOverlay extends Component {
             <Menu.Item name="camera">
               <Icon name="camera" />
               json tree
-              <Example />
+              <Example value={this.state.jsonData} />
             </Menu.Item>{" "}
           </Sidebar>{" "}
           <Sidebar.Pusher>
@@ -120,6 +129,7 @@ class SidebarRightOverlay extends Component {
                 onSelectedUUID={this.showUUID}
                 onSelectedName={this.showName}
                 onSelectedVisi={this.showVisible}
+                onPassJdata={this.passJson}
                 visi={this.state.checked_up}
               />
             </Segment>{" "}

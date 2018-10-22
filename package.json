@@ -11,7 +11,8 @@
     "react-virtualized-tree": "^2.3.2",
     "semantic-ui-react": "^0.81.1",
     "three": "^0.94.0",
-    "three-gltf-loader": "^1.94.0"
+    "three-gltf-loader": "^1.94.0",
+    "write-json-file": "^3.0.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
