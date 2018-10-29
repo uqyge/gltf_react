@@ -131,9 +131,6 @@ class SidebarRightOverlay extends Component {
           </Sidebar>{" "}
           <Sidebar.Pusher>
             <Segment basic>
-              {" "}
-              {/* <Tutorial/> */}
-              {/* <DemoCanvas/> */}
               {/* <Cube onSelectedUUID={this.showUUID} /> */}
               <GltfTest
                 onSelectedUUID={this.showUUID}
