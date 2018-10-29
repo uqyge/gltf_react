@@ -93,15 +93,19 @@ class GltfTest extends React.Component {
         // (async () => {
         //   await writeJsonFile("foo.json", gltf.scene.children[0].children);
         // })();
-        jsonData = JSON.stringify(gltf.scene.children[0].children);
+        // jsonData = JSON.stringify(gltf.scene.children[0].children);
+        jsonData = gltf.scene.children[0].children;
         // jsonData = JSON.stringify(names);
         // jsonData = gltf.scene.children[0].children;
         // console.log("loaded 1 json", jsonData);
         for (var parts in gltf.scene.children[0].children) {
           // console.log("parts", gltf.scene.children[0].children[parts].uuid);
           // console.log("json parts", visiJson.uuids[0]);
+          // console.log("hide parts", this.props.value.uuid);
           if (
             gltf.scene.children[0].children[parts].uuid === visiJson.uuids[0]
+            // gltf.scene.children[0].children[parts].uuid ===
+            // this.props.value.uuid
           ) {
             gltf.scene.children[0].children[parts].visible = false;
             console.log(
@@ -228,6 +232,21 @@ class GltfTest extends React.Component {
       intersects = this.raycaster.intersectObjects(
         this.scene.children[2].children[0].children
       );
+      // console.log("objs", this.scene.children[2].children[0]);
+      for (var i in this.scene.children[2].children[0].children) {
+        // console.log(
+        //   "objs",
+        //   i,
+        //   this.scene.children[2].children[0].children[i].uuid
+        // );
+        if (
+          this.scene.children[2].children[0].children[i].uuid ===
+          this.props.value.text
+        ) {
+          this.scene.children[2].children[0].children[i].visible = false;
+        }
+        // console.log("hide:", this.props.value.text);
+      }
     }
 
     if (intersects != null && intersects.length > 0) {

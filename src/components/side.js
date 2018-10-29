@@ -29,11 +29,13 @@ class SidebarRightOverlay extends Component {
     this.showVisible = this.showVisible.bind(this);
     this.showChecked = this.showChecked.bind(this);
     this.passJson = this.passJson.bind(this);
+    this.passSelected = this.passSelected.bind(this);
     this.state = {
       visible: false,
       uuid_up: "None",
       name_up: "None",
       jsonData: [],
+      selectedObj: [],
       visi_up: true,
       checked_up: true
     };
@@ -62,6 +64,12 @@ class SidebarRightOverlay extends Component {
       jsonData: jdata
     });
   }
+  passSelected(jdata) {
+    this.setState({
+      selectedObj: jdata
+    });
+  }
+
   showVisible(visi) {
     this.setState({
       visi_up: visi
@@ -75,11 +83,11 @@ class SidebarRightOverlay extends Component {
 
   render() {
     const { visible } = this.state;
-    console.log("up", this.state.uuid_up);
-    console.log("visi", this.state.visi_up);
-    // console.log("json", this.state.jsonData);
-    console.log("checked", this.state.checked_up);
-
+    // console.log("up", this.state.uuid_up);
+    // console.log("visi", this.state.visi_up);
+    // console.log("json", this.state.jsonData[0]);
+    // console.log("checked", this.state.checked_up);
+    console.log("seleced", this.state.selectedObj);
     // console.log($(".ui.checkbox").checkbox());
     let vi = "visible";
     // if (!this.state.visi_up) {
@@ -94,7 +102,7 @@ class SidebarRightOverlay extends Component {
           <Sidebar
             as={Menu}
             animation="overlay"
-            width="thick"
+            width="wide"
             direction="right"
             visible={visible}
             icon="labeled"
@@ -110,13 +118,15 @@ class SidebarRightOverlay extends Component {
             <Menu.Item name="gamepad">
               <Icon name="gamepad" />
               {vi}
-              {/* <CheckboxExampleRemoteControl onClick={this.toggleCheck} /> */}
               <Button onClick={this.toggleCheck}> {vi}</Button>
             </Menu.Item>
             <Menu.Item name="camera">
               <Icon name="camera" />
               json tree
-              <Example value={this.state.jsonData} />
+              <Example
+                value={this.state.jsonData}
+                onPassSelected={this.passSelected}
+              />
             </Menu.Item>{" "}
           </Sidebar>{" "}
           <Sidebar.Pusher>
@@ -131,6 +141,7 @@ class SidebarRightOverlay extends Component {
                 onSelectedVisi={this.showVisible}
                 onPassJdata={this.passJson}
                 visi={this.state.checked_up}
+                value={this.state.selectedObj}
               />
             </Segment>{" "}
           </Sidebar.Pusher>{" "}

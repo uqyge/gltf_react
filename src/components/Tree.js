@@ -20,10 +20,9 @@ class Example extends React.Component {
     let selectedItem = api.getSelectedItem();
 
     if (selectedItem) {
-      console.log(selectedItem);
-
-      saveText(JSON.stringify(selectedItem), "filename.json");
-      // saveText(JSON.stringify(this.props.value), "filename.json");
+      // saveText(JSON.stringify(selectedItem), "filename.json");
+      this.props.onPassSelected(selectedItem);
+      console.log("selected item", selectedItem);
       // api.removeItem(selectedItem.id);
     } else {
       alert("You have to select a item to remove it");
@@ -31,20 +30,38 @@ class Example extends React.Component {
   }
 
   render() {
-    // let jPass = JSON.parse(this.props.value);
-    console.log("pass", this.props.value.substring(0, 5));
+    // console.log("pass", this.props.value[0]);
+    // if (this.props.value[0]) {
+    // for (var i in this.props.value) {
+    // console.log("uuid exist", i, this.props.value[i].uuid);
+    // }
+    // console.log("uuid exist", this.props.value[1].uuid);
+    // }
+
+    var jPass = [];
+    for (var i in this.props.value) {
+      // jPass[i] = this.props.value[i].name;
+      jPass.push({
+        id: i,
+        text: this.props.value[i].uuid,
+        isLeaf: true
+      });
+      // this.props.onPassSelected(jPass);
+      // console.log("push", this.props.value[i].name);
+    }
     // console.log("test", jPass);
-    // console.log("countries", cbcs);
+
     return (
       <div>
         <button onClick={this.addItemAndSubItem.bind(this)}>
-          Click to remove the select item
+          Click to hide the select item
         </button>
         <TreeView
           ref="treeview"
           // json="https://denifakedata.herokuapp.com/tree/countries"
-          items={cbcs}
-          // items={this.props.value}
+          // items={cbcs}
+          // items={this.props.value[0]}
+          items={jPass}
           showCheckbox={true}
         />
       </div>
