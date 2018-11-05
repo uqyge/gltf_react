@@ -14,15 +14,41 @@ function saveText(text, filename) {
 }
 
 class Example extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    var jPass = [];
+    for (var i in this.props.value) {
+      // jPass[i] = this.props.value[i].name;
+      jPass.push({
+        id: i,
+        text: this.props.value[i].uuid,
+        isLeaf: true,
+        state: 1,
+        visible: this.props.value[i].visible
+      });
+    }
+    this.jPass = jPass;
+    console.log("jpass", this.jPass);
+  }
+
   addItemAndSubItem() {
     let api = this.refs.treeview.api;
 
-    let selectedItem = api.getSelectedItem();
+    // let selectedItem = api.getSelectedItem();
+    let selectedItem = api.getItems();
 
     if (selectedItem) {
+      if (selectedItem.state === 1) {
+        selectedItem.visible = true;
+      } else if (selectedItem.state === 2) {
+        selectedItem.visible = false;
+      }
       // saveText(JSON.stringify(selectedItem), "filename.json");
       this.props.onPassSelected(selectedItem);
-      console.log("selected item", selectedItem);
+      // console.log("selected item", selectedItem);
       // api.removeItem(selectedItem.id);
     } else {
       alert("You have to select a item to remove it");
@@ -30,17 +56,11 @@ class Example extends React.Component {
   }
 
   render() {
-    var jPass = [];
-    for (var i in this.props.value) {
-      // jPass[i] = this.props.value[i].name;
-      jPass.push({
-        id: i,
-        text: this.props.value[i].uuid,
-        isLeaf: true
-      });
+    let treeData = cbcs;
+    if (Boolean(this.jPass)) {
+      // console.log("test", this.jPass);
+      treeData = this.jPass;
     }
-    // console.log("test", jPass);
-
     return (
       <div>
         <button onClick={this.addItemAndSubItem.bind(this)}>
@@ -48,9 +68,9 @@ class Example extends React.Component {
         </button>
         <TreeView
           ref="treeview"
-          // json="https://denifakedata.herokuapp.com/tree/countries"
           // items={cbcs}
-          items={jPass}
+          items={treeData}
+          // items={this.jPass}
           showCheckbox={true}
         />
       </div>

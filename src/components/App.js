@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>react-flexbox-grid Tutorial</h2>
+          <h2>Gltf front end tutorial</h2>
         </div>
         {/* <Tutorial /> */}
 

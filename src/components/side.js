@@ -95,6 +95,20 @@ class SidebarRightOverlay extends Component {
       vi = "hide";
     }
 
+    let objTree = null;
+    // console.log(this.state.jsonData);
+    console.log(this.selectedObj);
+    // if (this.state.jsonData.size > 0) {
+    // if (Boolean(this.state.jsonData)) {
+    if (this.state.jsonData.length) {
+      console.log("jdata", this.state.jsonData.length);
+      objTree = (
+        <Example
+          value={this.state.jsonData}
+          onPassSelected={this.passSelected}
+        />
+      );
+    }
     return (
       <div>
         <Button onClick={this.toggleVisibility}> Object detail View </Button>{" "}
@@ -122,11 +136,8 @@ class SidebarRightOverlay extends Component {
             </Menu.Item>
             <Menu.Item name="camera">
               <Icon name="camera" />
-              json tree
-              <Example
-                value={this.state.jsonData}
-                onPassSelected={this.passSelected}
-              />
+              {/*json tree*/}
+              {objTree}
             </Menu.Item>{" "}
           </Sidebar>{" "}
           <Sidebar.Pusher>

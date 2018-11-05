@@ -234,18 +234,21 @@ class GltfTest extends React.Component {
       );
       // console.log("objs", this.scene.children[2].children[0]);
       for (var i in this.scene.children[2].children[0].children) {
-        // console.log(
-        //   "objs",
-        //   i,
-        //   this.scene.children[2].children[0].children[i].uuid
-        // );
-        if (
-          this.scene.children[2].children[0].children[i].uuid ===
-          this.props.value.text
-        ) {
-          this.scene.children[2].children[0].children[i].visible = false;
+        if (Boolean(this.props.value[i])) {
+          // console.log(
+          //   "model",
+          //   this.scene.children[2].children[0].children[i].uuid
+          // );
+          // console.log("select", this.props.value[i].text);
+          if (
+            this.scene.children[2].children[0].children[i].uuid ===
+            this.props.value[i].text
+          ) {
+            this.scene.children[2].children[0].children[i].visible =
+              this.props.value[i].state > 1 ? false : true;
+          }
         }
-        // console.log("hide:", this.props.value.text);
+        // console.log("hide:", this.props.value[i]);
       }
     }
 
@@ -293,12 +296,7 @@ class GltfTest extends React.Component {
   }
 
   render() {
-    // console.log(this.state.uuid);
-    // if (this.camera != null) {
-    //   console.log("camera look_at", this.camera.getWorldDirection());
-    //   console.log("newCam look_at", this.newCam.getWorldDirection());
-    // }
-
+    // console.log("seleced from the tree", this.props.value);
     return (
       <div
         // style={{ width: "800px", height: "800px" }}
