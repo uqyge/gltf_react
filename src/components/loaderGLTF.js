@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
 import * as THREE from "three";
-import GLTFLoader from "three-gltf-loader";
+// import GLTFLoader from "three-gltf-loader";
 // import data from "../models/gltf/Duck/glTF/Duck.gltf";
 // import data from "../models/gltf/Duck/glTF-Binary/Duck.glb";
-// import data from "./DamagedHelmet.glb";
-// import data from "./Duck.glb";
-import data from "./Test001.glb";
+// import data from "./Test001.glb";
+import data from "../models/gltf/Fraunhofer/Fraunhofer.glb";
+import testGltf from "./models/gltf/test/Test001.json";
 import visiJson from "./models/visibility.json";
-
+import gltfBoundingBox from "gltf-bounding-box";
 class GltfTest extends React.Component {
   constructor(props) {
     super(props);
@@ -48,106 +48,73 @@ class GltfTest extends React.Component {
       1,
       200000
     );
-    const camHelper = new THREE.CameraHelper(newCam);
-    scene.add(camHelper);
+
     // this.camera = camera;
     console.log("cam ini pos", camera.position);
 
-    console.log("cam ini 2 pos", camera.position);
     const raycaster = new THREE.Raycaster();
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
 
     const light = new THREE.HemisphereLight(0xbbbbff, 0x444422);
-    // const writeJsonFile = require("write-json-file");
     light.position.set(0, 1, 0);
     scene.add(light);
+
     // model
     var loader = new window.THREE.GLTFLoader();
     var jsonData;
-    // console.log("edison", loader);
-    console.log(data);
 
-    loader.load(
-      //   "../models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf",
-      // "../models/gltf/Duck/glTF/Duck.gltf",
-      // "models/gltf/Duck/glTF-Embedded/Duck.gltf",
-      // "models/gltf/Duck/glTF-Binary/Duck.glb",
-      // "Duck.gltf",
-      data,
-      // "https://rawgit.com/mrdoob/three.js/master/examples/models/gltf/Duck/glTF-Binary/Duck.glb",
-      gltf => {
-        // scene.add(gltf.scene);
+    console.log("input", data);
+    // var fs = require("fs");
+    // const model = JSON.parse(
+    //   fs.readFileSync("./models/gltf/test/Test001.gltf"),
+    //   "utf8"
+    // );
+    // const model = fs.readFileSync("./models/gltf/test/Test001.gltf");
+    console.log("gltf", testGltf);
+    console.log("json", visiJson);
+    // const boundings = gltfBoundingBox.computeBoundings(testGltf);
+    // console.log("model", boundings);
+    // const boundings = gltfBoundingBox.computeBoundings(model);
+    // console.log("bounding", boundings);
+    loader.load(data, gltf => {
+      console.log("model ", gltf.scene.children[0]);
 
-        gltf.scene.children[0].children[0].geometry.computeBoundingSphere();
-        console.log(
-          gltf.scene.children[0].children[0].geometry.boundingSphere.center
-        );
-        var names = [];
-        for (var i in gltf.scene.children[0].children) {
-          names.push(gltf.scene.children[0].children[i].name);
-        }
-        console.log("gltf", names);
-        // console.log("gltf", gltf.scene.children[0].children.uuid);
-
-        // (async () => {
-        //   await writeJsonFile("foo.json", gltf.scene.children[0].children);
-        // })();
-        // jsonData = JSON.stringify(gltf.scene.children[0].children);
-        jsonData = gltf.scene.children[0].children;
-        // jsonData = JSON.stringify(names);
-        // jsonData = gltf.scene.children[0].children;
-        // console.log("loaded 1 json", jsonData);
-        for (var parts in gltf.scene.children[0].children) {
-          // console.log("parts", gltf.scene.children[0].children[parts].uuid);
-          // console.log("json parts", visiJson.uuids[0]);
-          // console.log("hide parts", this.props.value.uuid);
-          if (
-            gltf.scene.children[0].children[parts].uuid === visiJson.uuids[0]
-            // gltf.scene.children[0].children[parts].uuid ===
-            // this.props.value.uuid
-          ) {
-            gltf.scene.children[0].children[parts].visible = false;
-            console.log(
-              "hidden parts",
-              gltf.scene.children[0].children[parts].uuid
-            );
-          }
-        }
-        scene.add(gltf.scene);
-        const meshCenter =
-          gltf.scene.children[0].children[0].geometry.boundingSphere.center;
-
-        camera.position.set(meshCenter.x, meshCenter.y, meshCenter.z + 10000);
-        newCam.position.set(meshCenter.x, meshCenter.y, meshCenter.z + 10000);
-        this.controls.target.set(meshCenter.x, meshCenter.y, meshCenter.z);
-
-        // camera.updateProjectionMatrix();
-        // newCam.updateProjectionMatrix();
-        // console.log("cam pos", camera.position);
-        // console.log("newCam pos", newCam.position);
-        // console.log("cam world", camera.getWorldDirection());
-        // console.log("newCam world", newCam.getWorldDirection());
-
-        newCam.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
-        camera.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
-
-        // camera.updateProjectionMatrix();
-        // newCam.updateProjectionMatrix();
-        // console.log("cam look_at", camera.getWorldDirection());
-        // console.log("newCam look_at", newCam.getWorldDirection());
-
-        // console.log("cam new pos", camera.position);
-        // console.log("newCam new pos", newCam.position);
-        // console.log("scene", scene.position);
-        // console.log("loaded 2 json", jsonData);
-        this.jsonData = jsonData;
+      var names = [];
+      for (var i in gltf.scene.children[0].children) {
+        names.push(gltf.scene.children[0].children[i].name);
       }
-    );
-    // controls
+      console.log("gltf", names);
+      jsonData = gltf.scene.children[0].children;
 
-    // fs.writeFile("s.json", jsonData, console.log("file created"));
-    // fs.writeFile("s.txt", "edison");
+      // check the initial visibility
+      for (var i in gltf.scene.children[0].children) {
+        if (gltf.scene.children[0].children[i].uuid === visiJson.uuids[0]) {
+          gltf.scene.children[0].children[i].visible = false;
+          console.log("hidden parts", gltf.scene.children[0].children[i].uuid);
+        }
+      }
+      scene.add(gltf.scene);
+
+      // gltf.scene.children[0].children[0].geometry.computeBoundingSphere();
+      // const meshCenter =
+      //   gltf.scene.children[0].children[0].geometry.boundingSphere.center;
+      // console.log("ref center", meshCenter);
+
+      // camera.position.set(meshCenter.x, meshCenter.y, meshCenter.z + 40000);
+      // newCam.position.set(meshCenter.x, meshCenter.y, meshCenter.z + 40000);
+      // this.controls.target.set(meshCenter.x, meshCenter.y, meshCenter.z);
+
+      // newCam.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
+      // camera.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
+
+      camera.updateProjectionMatrix();
+      newCam.updateProjectionMatrix();
+      this.jsonData = jsonData;
+    });
+    // controls
+    const camHelper = new THREE.CameraHelper(newCam);
+    scene.add(camHelper);
 
     renderer.setClearColor("#000000");
     renderer.setSize(width, height);
@@ -164,20 +131,11 @@ class GltfTest extends React.Component {
     this.raycaster = raycaster;
     this.renderer = renderer;
     this.material = material;
-    // console.log("loaded 2 json", jsonData);
-    // this.jsonData = jsonData;
 
     const controls = new window.THREE.OrbitControls(
       this.camera
       // this.renderer.domElement
     );
-    //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
-    // controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    // controls.dampingFactor = 0.25;
-    // controls.screenSpacePanning = false;
-    // controls.minDistance = 100;
-    // controls.maxDistance = 500;
-    // controls.maxPolarAngle = Math.PI / 2;
 
     this.controls = controls;
     this.controls.update();
@@ -212,7 +170,6 @@ class GltfTest extends React.Component {
     this.mouse.y =
       -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
 
-    // console.log(this.mouse);
     this.setState({
       x: this.mouse.x,
       y: this.mouse.y
@@ -235,11 +192,6 @@ class GltfTest extends React.Component {
       // console.log("objs", this.scene.children[2].children[0]);
       for (var i in this.scene.children[2].children[0].children) {
         if (Boolean(this.props.value[i])) {
-          // console.log(
-          //   "model",
-          //   this.scene.children[2].children[0].children[i].uuid
-          // );
-          // console.log("select", this.props.value[i].text);
           if (
             this.scene.children[2].children[0].children[i].uuid ===
             this.props.value[i].text
@@ -248,7 +200,6 @@ class GltfTest extends React.Component {
               this.props.value[i].state > 1 ? false : true;
           }
         }
-        // console.log("hide:", this.props.value[i]);
       }
     }
 
@@ -263,13 +214,11 @@ class GltfTest extends React.Component {
         // console.log("id object", this.INTERSECTED.visible);
         // console.log("gltf checked", this.props.visi);
         // console.log("json", visiJson.uuids[0]);
-        console.log(this.INTERSECTED.material);
+
         this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
         this.INTERSECTED.material.emissive.setHex(0x00ff00);
-        // this.INTERSECTED.currentOp = this.INTERSECTED.material.opacity;
-        // this.INTERSECTED.material.opacity = 0.1;
+
         this.INTERSECTED.visible = this.props.visi;
-        // this.props.uuid = this.INTERSECTED.uuid;
         this.props.onSelectedUUID(this.INTERSECTED.uuid);
         this.props.onSelectedName(this.INTERSECTED.name);
         this.props.onSelectedVisi(this.INTERSECTED.visible);
@@ -282,16 +231,12 @@ class GltfTest extends React.Component {
     } else {
       if (this.INTERSECTED)
         this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
-      // this.INTERSECTED.material.opacity = this.INTERSECTED.currentOp;
       this.INTERSECTED = null;
       this.setState({
         uuid: "None"
       });
     }
-    // this.controls.target.set(-0.041, 1.9, -1.21);
-    // this.camera.position.set(158212.078125, 1502.5037841796875, 32895);
-    // this.camera.lookAt(158212.078125, 1502.5037841796875, 2895);
-    // this.controls.update();
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -299,19 +244,12 @@ class GltfTest extends React.Component {
     // console.log("seleced from the tree", this.props.value);
     return (
       <div
-        // style={{ width: "800px", height: "800px" }}
         style={{ width: window.innerWidth, height: window.innerHeight }}
         ref={mount => {
           this.mount = mount;
         }}
-        // onMouseDown={this.stop}
         onMouseMove={this.handleMouseMove}
-      >
-        {/* <p>
-          mouse position ({this.state.x},{this.state.y})
-        </p> */}
-        {/* <p>object selected is {this.state.uuid}</p> */}
-      </div>
+      />
     );
   }
 }

@@ -9,12 +9,9 @@ import {
   Icon,
   Header
 } from "semantic-ui-react";
-// import Tutorial from "./Tutorial";
-// import DemoCanvas from './DemoCanvas';
 import Cube from "./cube";
 import GltfTest from "./loaderGLTF";
 import WorldCupExample from "./Tree.js";
-// import CheckboxExampleCheckbox from "./Checkbox.js";
 import Extensions from "./Checkbox.js";
 import Example from "./Tree.js";
 

@@ -1,37 +1,45 @@
-import React, { Component } from 'react'
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
-import Tutorial from './Tutorial';
+import React, { Component } from "react";
+import {
+  Sidebar,
+  Segment,
+  Button,
+  Menu,
+  Image,
+  Icon,
+  Header
+} from "semantic-ui-react";
+// import Tutorial from "./Tutorial";
 
 class SidebarLeftOverlay extends Component {
-  state = { visible: true }
+  state = { visible: true };
 
-  toggleVisibility = () => this.setState({ visible: !this.state.visible })
+  toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { visible } = this.state
+    const { visible } = this.state;
     return (
       <div>
         <Button onClick={this.toggleVisibility}>Tree View</Button>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             as={Menu}
-            animation='overlay'
-            width='thin'
+            animation="overlay"
+            width="thin"
             visible={visible}
-            icon='labeled'
+            icon="labeled"
             vertical
             inverted
           >
-            <Menu.Item name='home'>
-              <Icon name='home' />
+            <Menu.Item name="home">
+              <Icon name="home" />
               Home
             </Menu.Item>
-            <Menu.Item name='gamepad'>
-              <Icon name='gamepad' />
+            <Menu.Item name="gamepad">
+              <Icon name="gamepad" />
               Games
             </Menu.Item>
-            <Menu.Item name='camera'>
-              <Icon name='camera' />
+            <Menu.Item name="camera">
+              <Icon name="camera" />
               Channels
             </Menu.Item>
           </Sidebar>
@@ -39,13 +47,13 @@ class SidebarLeftOverlay extends Component {
             <Segment basic>
               {/* <Header as='h3'>Application Content</Header> */}
               {/* <Image src='/assets/images/wireframe/paragraph.png' /> */}
-              < Tutorial />
+              {/* <Tutorial /> */}
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </div>
-    )
+    );
   }
 }
 
-export default SidebarLeftOverlay
+export default SidebarLeftOverlay;

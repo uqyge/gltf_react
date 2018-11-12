@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Tutorial from "./Tutorial";
 import SidebarRightOverlay from "./side";
 import SidebarLeftOverlay from "./treeview";
 
@@ -12,8 +11,6 @@ class App extends Component {
         <div className="App-header">
           <h2>Gltf front end tutorial</h2>
         </div>
-        {/* <Tutorial /> */}
-
         <SidebarRightOverlay />
         {/* < SidebarLeftOverlay /> */}
         {/* < ButtonExampleLabeledBasic /> */}
