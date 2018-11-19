@@ -3,12 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "deni-react-treeview": "^0.2.12",
-    "gltf-bounding-box": "^0.2.2",
+    "deni-react-treeview": "^0.1.13",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-flexbox-grid": "^1.1.3",
-    "react-splitter-layout": "^3.0.1",
     "react-virtualized": "^9.20.1",
     "react-virtualized-tree": "^2.3.5",
     "semantic-ui-react": "^0.81.1",
@@ -29,7 +27,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "./src/models/gltf/test/test.js"
+    "build": "react-scripts build"
   }
 }

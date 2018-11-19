@@ -97,7 +97,7 @@ class SidebarRightOverlay extends Component {
     console.log(this.selectedObj);
     // if (this.state.jsonData.size > 0) {
     // if (Boolean(this.state.jsonData)) {
-    if (this.state.jsonData.length) {
+    if (Boolean(this.state.jsonData)) {
       console.log("jdata", this.state.jsonData.length);
       objTree = (
         <Example

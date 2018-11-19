@@ -6,7 +6,8 @@ import * as THREE from "three";
 // import data from "../models/gltf/Duck/glTF-Binary/Duck.glb";
 // import data from "./Test001.glb";
 import data from "../models/gltf/Fraunhofer/Fraunhofer.glb";
-import testGltf from "./models/gltf/test/Test001.json";
+// import testGltf from "./models/gltf/test/Test001.json";
+import testGltf from "./models/gltf/test/Test001.gltf";
 import visiJson from "./models/visibility.json";
 import gltfBoundingBox from "gltf-bounding-box";
 class GltfTest extends React.Component {
@@ -64,17 +65,20 @@ class GltfTest extends React.Component {
     var loader = new window.THREE.GLTFLoader();
     var jsonData;
 
-    console.log("input", data);
+    // console.log("input", data);
     // var fs = require("fs");
     // const model = JSON.parse(
     //   fs.readFileSync("./models/gltf/test/Test001.gltf"),
     //   "utf8"
     // );
-    // const model = fs.readFileSync("./models/gltf/test/Test001.gltf");
+    // // const model = fs.readFileSync("./models/gltf/test/Test001.gltf");
     console.log("gltf", testGltf);
+    // const model = JSON.parse(testGltf);
+    // console.log("fs model", model);
     console.log("json", visiJson);
-    // const boundings = gltfBoundingBox.computeBoundings(testGltf);
-    // console.log("model", boundings);
+    console.log("DATA TYPE", data.readUInt32LE);
+    // const boundings = gltfBoundingBox.computeBoundings(data);
+    // console.log("bbox", boundings);
     // const boundings = gltfBoundingBox.computeBoundings(model);
     // console.log("bounding", boundings);
     loader.load(data, gltf => {
@@ -84,8 +88,11 @@ class GltfTest extends React.Component {
       for (var i in gltf.scene.children[0].children) {
         names.push(gltf.scene.children[0].children[i].name);
       }
-      console.log("gltf", names);
       jsonData = gltf.scene.children[0].children;
+      console.log("jsonData", jsonData);
+      // const boundings = gltfBoundingBox.computeBoundings(gltf);
+      // console.log("bounding box", boundings);
+      console.log("gltf", names);
 
       // check the initial visibility
       for (var i in gltf.scene.children[0].children) {
@@ -108,13 +115,25 @@ class GltfTest extends React.Component {
       // newCam.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
       // camera.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
 
+      var meshCenter = {
+        x: 0,
+        y: 0,
+        z: 0
+      };
+      camera.position.set(meshCenter.x, meshCenter.y - 40, meshCenter.z);
+      newCam.position.set(meshCenter.x, meshCenter.y - 40, meshCenter.z);
+      this.controls.target.set(meshCenter.x, meshCenter.y, meshCenter.z);
+
+      newCam.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
+      camera.lookAt(meshCenter.x, meshCenter.y, meshCenter.z);
+
       camera.updateProjectionMatrix();
       newCam.updateProjectionMatrix();
       this.jsonData = jsonData;
     });
     // controls
     const camHelper = new THREE.CameraHelper(newCam);
-    scene.add(camHelper);
+    // scene.add(camHelper);
 
     renderer.setClearColor("#000000");
     renderer.setSize(width, height);
@@ -235,6 +254,8 @@ class GltfTest extends React.Component {
       this.setState({
         uuid: "None"
       });
+      console.log("input json", this.jsonData);
+      this.props.onPassJdata(this.jsonData);
     }
 
     this.renderer.render(this.scene, this.camera);

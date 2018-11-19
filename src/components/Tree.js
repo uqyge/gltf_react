@@ -16,22 +16,38 @@ function saveText(text, filename) {
 class Example extends React.Component {
   constructor(props) {
     super(props);
+    this.jPass = null;
   }
 
   componentDidMount() {
     var jPass = [];
-    for (var i in this.props.value) {
-      // jPass[i] = this.props.value[i].name;
-      jPass.push({
-        id: i,
-        text: this.props.value[i].uuid,
-        isLeaf: true,
-        state: 1,
-        visible: this.props.value[i].visible
-      });
+    // if (Boolean(this.props.value.size > 0)) {
+    console.log("tree input", this.props.value);
+    if (this.props.value.length > 0) {
+      for (var i in this.props.value[0].children) {
+        // jPass[i] = this.props.value[i].name;
+        console.log("id ", this.props.value[0].children[i]);
+        var jSub = [];
+        for (var j in this.props.value[0].children[i].children) {
+          console.log("id ", this.props.value[0].children[i].children[j]);
+          jSub.push({
+            id: i * 1000 + j,
+            text: this.props.value[0].children[i].children[j].uuid,
+            isLeaf: true,
+            state: 1,
+            visible: this.props.value[0].children[i].children[j].visible
+          });
+        }
+        jPass.push({
+          children: jSub,
+          id: i,
+          text: this.props.value[0].children[i].uuid
+        });
+      }
     }
     this.jPass = jPass;
     console.log("jpass", this.jPass);
+    // }
   }
 
   addItemAndSubItem() {
