@@ -5,6 +5,8 @@
   "dependencies": {
     "deni-react-treeview": "^0.2.12",
     "gltf-bounding-box": "^0.2.2",
+    "jshint": "^2.9.6",
+    "jslint": "^0.12.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-flexbox-grid": "^1.1.3",

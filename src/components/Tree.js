@@ -22,26 +22,30 @@ class Example extends React.Component {
   componentDidMount() {
     var jPass = [];
     // if (Boolean(this.props.value.size > 0)) {
-    console.log("tree input", this.props.value);
-    if (this.props.value.length > 0) {
-      for (var i in this.props.value[0].children) {
-        // jPass[i] = this.props.value[i].name;
-        console.log("id ", this.props.value[0].children[i]);
+    // console.log("tree input", this.props.value.Entities.Childs[0]);
+    // console.log("length", Boolean(this.props.value.Entities));
+
+    if (Boolean(this.props.value.Entities)) {
+      for (var i in this.props.value.Entities.Childs[0].Childs) {
+        // console.log("id i", this.props.value.Entities.Childs[0].Childs[i]);
         var jSub = [];
-        for (var j in this.props.value[0].children[i].children) {
-          console.log("id ", this.props.value[0].children[i].children[j]);
+        for (var j in this.props.value.Entities.Childs[0].Childs[i].Childs) {
+          // console.log(
+          //   "id j",
+          //   this.props.value.Entities.Childs[0].Childs[i].Childs[j].GUID
+          // );
           jSub.push({
             id: i * 1000 + j,
-            text: this.props.value[0].children[i].children[j].uuid,
+            text: this.props.value.Entities.Childs[0].Childs[i].Childs[j].Name,
             isLeaf: true,
-            state: 1,
-            visible: this.props.value[0].children[i].children[j].visible
+            state: 1
+            // visible: this.props.value[0].children[i].children[j].visible
           });
         }
         jPass.push({
           children: jSub,
           id: i,
-          text: this.props.value[0].children[i].uuid
+          text: this.props.value.Entities.Childs[0].Childs[i].Name
         });
       }
     }

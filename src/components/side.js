@@ -9,12 +9,14 @@ import {
   Icon,
   Header
 } from "semantic-ui-react";
-import Cube from "./cube";
 import GltfTest from "./loaderGLTF";
 import WorldCupExample from "./Tree.js";
 import Extensions from "./Checkbox.js";
 import Example from "./Tree.js";
 
+import modelInfo from "../models/gltf/Fraunhofer/Fraunhofer.json";
+
+import SpliterLayout from "react-splitter-layout";
 // import {init,animate} from './box.js'
 // import './box.js'
 
@@ -34,7 +36,8 @@ class SidebarRightOverlay extends Component {
       jsonData: [],
       selectedObj: [],
       visi_up: true,
-      checked_up: true
+      checked_up: true,
+      modelInfo: modelInfo
     };
   }
 
@@ -94,63 +97,98 @@ class SidebarRightOverlay extends Component {
 
     let objTree = null;
     // console.log(this.state.jsonData);
-    console.log(this.selectedObj);
+    // console.log(this.selectedObj);
+    // console.log("model json", modelInfo.Entities.Childs[0].Childs[0]);
     // if (this.state.jsonData.size > 0) {
     // if (Boolean(this.state.jsonData)) {
     if (Boolean(this.state.jsonData)) {
       console.log("jdata", this.state.jsonData.length);
       objTree = (
         <Example
-          value={this.state.jsonData}
+          // value={this.state.jsonData}
+          value={this.state.modelInfo}
           onPassSelected={this.passSelected}
         />
       );
     }
+    let itemProp = null;
+    console.log("name select", this.state.name_up);
+    for (let i in modelInfo.Entities.Childs[0].Childs) {
+      // console.log("name", modelInfo.Entities.Childs[0].Childs[i]);
+      for (let j in modelInfo.Entities.Childs[0].Childs[i].Childs) {
+        if (
+          modelInfo.Entities.Childs[0].Childs[i].Childs[j].GUID ===
+          this.state.name_up
+        ) {
+          console.log(
+            "name",
+            modelInfo.Entities.Childs[0].Childs[i].Childs[j].GUID
+          );
+          itemProp =
+            modelInfo.Entities.Childs[0].Childs[i].Childs[j].Attributes;
+        }
+      }
+    }
+    let propItems = null;
+    if (itemProp != null) {
+      propItems = itemProp.map(d => <li key={d.Name}>{d.Name}</li>);
+    }
+
     return (
       <div>
         <Button onClick={this.toggleVisibility}> Object detail View </Button>{" "}
-        <Sidebar.Pushable as={Segment}>
-          <Sidebar
-            as={Menu}
-            animation="overlay"
-            width="wide"
-            direction="right"
-            visible={visible}
-            icon="labeled"
-            vertical
-            inverted
-          >
-            <Menu.Item name="home">
-              <Icon name="home" />
-              Name: {this.state.name_up}
-              <p />
-              UUID: {this.state.uuid_up}
-            </Menu.Item>
-            <Menu.Item name="gamepad">
-              <Icon name="gamepad" />
-              {vi}
-              <Button onClick={this.toggleCheck}> {vi}</Button>
-            </Menu.Item>
-            <Menu.Item name="camera">
-              <Icon name="camera" />
-              {/*json tree*/}
-              {objTree}
-            </Menu.Item>{" "}
-          </Sidebar>{" "}
-          <Sidebar.Pusher>
-            <Segment basic>
-              {/* <Cube onSelectedUUID={this.showUUID} /> */}
-              <GltfTest
-                onSelectedUUID={this.showUUID}
-                onSelectedName={this.showName}
-                onSelectedVisi={this.showVisible}
-                onPassJdata={this.passJson}
-                visi={this.state.checked_up}
-                value={this.state.selectedObj}
-              />
-            </Segment>{" "}
-          </Sidebar.Pusher>{" "}
-        </Sidebar.Pushable>{" "}
+        <SpliterLayout secondaryInitialSize={80} percentage={true}>
+          <div>
+            tree window
+            {objTree}
+            <p />
+          </div>
+          <div>
+            <Sidebar.Pushable as={Segment}>
+              <Sidebar
+                as={Menu}
+                animation="overlay"
+                width="wide"
+                direction="right"
+                visible={visible}
+                icon="labeled"
+                vertical
+                inverted
+              >
+                {/* <Menu.Item name="home">
+                  <Icon name="home" />
+                  <p />
+                  UUID: {this.state.uuid_up}
+                </Menu.Item>
+                <Menu.Item name="gamepad">
+                  <Icon name="gamepad" />
+                  {vi}
+                  <Button onClick={this.toggleCheck}> {vi}</Button>
+                </Menu.Item> */}
+                <Menu.Item name="properties">
+                  {/*json tree*/}
+                  Name: {this.state.name_up}
+                  <p />
+                  {propItems}
+                  {/* <div>{itemProp.map(station => <div> {station} </div>)}</div> */}
+                  {/* {modelInfo.Entities.Childs[0].Childs[0].Name} */}
+                </Menu.Item>{" "}
+              </Sidebar>{" "}
+              <Sidebar.Pusher>
+                <Segment basic>
+                  <GltfTest
+                    onSelectedUUID={this.showUUID}
+                    onSelectedName={this.showName}
+                    onSelectedVisi={this.showVisible}
+                    onPassJdata={this.passJson}
+                    visi={this.state.checked_up}
+                    value={this.state.selectedObj}
+                  />
+                </Segment>{" "}
+              </Sidebar.Pusher>{" "}
+            </Sidebar.Pushable>{" "}
+          </div>
+        </SpliterLayout>
       </div>
     );
   }

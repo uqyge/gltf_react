@@ -51,7 +51,7 @@ class GltfTest extends React.Component {
     );
 
     // this.camera = camera;
-    console.log("cam ini pos", camera.position);
+    // console.log("cam ini pos", camera.position);
 
     const raycaster = new THREE.Raycaster();
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -72,33 +72,33 @@ class GltfTest extends React.Component {
     //   "utf8"
     // );
     // // const model = fs.readFileSync("./models/gltf/test/Test001.gltf");
-    console.log("gltf", testGltf);
+    // console.log("gltf", testGltf);
     // const model = JSON.parse(testGltf);
     // console.log("fs model", model);
-    console.log("json", visiJson);
-    console.log("DATA TYPE", data.readUInt32LE);
+    // console.log("json", visiJson);
+
     // const boundings = gltfBoundingBox.computeBoundings(data);
     // console.log("bbox", boundings);
     // const boundings = gltfBoundingBox.computeBoundings(model);
     // console.log("bounding", boundings);
     loader.load(data, gltf => {
-      console.log("model ", gltf.scene.children[0]);
+      // console.log("model ", gltf.scene.children[0]);
 
       var names = [];
       for (var i in gltf.scene.children[0].children) {
         names.push(gltf.scene.children[0].children[i].name);
       }
       jsonData = gltf.scene.children[0].children;
-      console.log("jsonData", jsonData);
+      // console.log("jsonData", jsonData);
       // const boundings = gltfBoundingBox.computeBoundings(gltf);
       // console.log("bounding box", boundings);
-      console.log("gltf", names);
+      // console.log("gltf", names);
 
       // check the initial visibility
       for (var i in gltf.scene.children[0].children) {
         if (gltf.scene.children[0].children[i].uuid === visiJson.uuids[0]) {
           gltf.scene.children[0].children[i].visible = false;
-          console.log("hidden parts", gltf.scene.children[0].children[i].uuid);
+          // console.log("hidden parts", gltf.scene.children[0].children[i].uuid);
         }
       }
       scene.add(gltf.scene);
@@ -159,7 +159,7 @@ class GltfTest extends React.Component {
     this.controls = controls;
     this.controls.update();
     this.mount.appendChild(this.renderer.domElement);
-
+    // console.log("scene", this.scene);
     this.start();
   }
 
@@ -204,22 +204,24 @@ class GltfTest extends React.Component {
   renderScene() {
     this.raycaster.setFromCamera(this.mouse, this.camera);
     let intersects = null;
-    if (this.scene.children[2] != null) {
+    // if (this.scene.children[1] != null)
+    //  console.log("intersects", this.scene.children[1]);
+    if (this.scene.children[1] != null) {
       intersects = this.raycaster.intersectObjects(
-        this.scene.children[2].children[0].children
+        this.scene.children[1].children
       );
       // console.log("objs", this.scene.children[2].children[0]);
-      for (var i in this.scene.children[2].children[0].children) {
-        if (Boolean(this.props.value[i])) {
-          if (
-            this.scene.children[2].children[0].children[i].uuid ===
-            this.props.value[i].text
-          ) {
-            this.scene.children[2].children[0].children[i].visible =
-              this.props.value[i].state > 1 ? false : true;
-          }
-        }
-      }
+      // for (var i in this.scene.children[2].children[0].children) {
+      //   if (Boolean(this.props.value[i])) {
+      //     if (
+      //       this.scene.children[2].children[0].children[i].uuid ===
+      //       this.props.value[i].text
+      //     ) {
+      //       this.scene.children[2].children[0].children[i].visible =
+      //         this.props.value[i].state > 1 ? false : true;
+      //     }
+      //   }
+      // }
     }
 
     if (intersects != null && intersects.length > 0) {
@@ -254,7 +256,7 @@ class GltfTest extends React.Component {
       this.setState({
         uuid: "None"
       });
-      console.log("input json", this.jsonData);
+      // console.log("input json", this.jsonData);
       this.props.onPassJdata(this.jsonData);
     }
 
