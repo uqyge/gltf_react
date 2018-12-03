@@ -184,6 +184,7 @@ class GltfTest extends React.Component {
     // this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     // this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     var rect = this.renderer.domElement.getBoundingClientRect();
+    console.log("offset left", rect.left, rect.top);
     this.mouse.x =
       ((event.clientX - rect.left) / (rect.width - rect.left)) * 2 - 1;
     this.mouse.y =
@@ -243,6 +244,7 @@ class GltfTest extends React.Component {
         this.props.onSelectedUUID(this.INTERSECTED.uuid);
         this.props.onSelectedName(this.INTERSECTED.name);
         this.props.onSelectedVisi(this.INTERSECTED.visible);
+
         // console.log("input json", this.jsonData);
         this.props.onPassJdata(this.jsonData);
         this.setState({
@@ -259,7 +261,7 @@ class GltfTest extends React.Component {
       // console.log("input json", this.jsonData);
       this.props.onPassJdata(this.jsonData);
     }
-
+    this.props.onSelectedMouse(this.mouse);
     this.renderer.render(this.scene, this.camera);
   }
 
