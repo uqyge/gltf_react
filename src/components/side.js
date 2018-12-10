@@ -4,14 +4,12 @@ import {
   Segment,
   Button,
   Menu,
-  Checkbox,
   Image,
   Icon,
   Header
 } from "semantic-ui-react";
 import GltfTest from "./loaderGLTF";
-import WorldCupExample from "./Tree.js";
-import Extensions from "./Checkbox.js";
+
 import Example from "./Tree.js";
 
 import ItemList from "./itemList.js";
@@ -19,6 +17,7 @@ import ItemList from "./itemList.js";
 import modelInfo from "../models/gltf/Fraunhofer/Fraunhofer.json";
 
 import SpliterLayout from "react-splitter-layout";
+import TableDemo from "./Tables.js";
 // import {init,animate} from './box.js'
 // import './box.js'
 const PRODUCTS = [
@@ -168,10 +167,10 @@ class SidebarRightOverlay extends Component {
     }
     let propItems = null;
     if (itemProp != null) {
-      // console.log(itemProp);
+      console.log("table input", itemProp);
       // propItems = itemProp.map(d => <li key={d.Name}>{d.Name}</li>);
       propItems = (
-        <ItemList
+        <TableDemo
           // value={this.state.jsonData}
           value={itemProp}
           // onPassSelected={this.passSelected}
@@ -239,6 +238,10 @@ class SidebarRightOverlay extends Component {
           <div>
             tree window
             {objTree}
+            <p />
+            some thing
+            {/* <TableDemo /> */}
+            {propItems}
             <p />
             <p>
               Size of the 2nd pane:
